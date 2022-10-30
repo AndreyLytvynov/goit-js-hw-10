@@ -10,9 +10,7 @@ export function fetchCountries(name) {
   ).then(response => {
     if (!response.ok) {
       // listEl.innerHTML = '';
-      throw new Error(
-        Notiflix.Notify.failure('Oops, there is no country with that name')
-      );
+      throw new Error(error);
     }
     return response.json();
   });

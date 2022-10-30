@@ -18,31 +18,33 @@ function onInputChange(e) {
     return;
   }
   fetchCountries(e.target.value.trim())
-    .then(arrCuntries => {
-      if (arrCuntries.length > 10) {
-        throw new Error(
-          Notiflix.Notify.warning(
-            `Too many matches found. Please enter a more specific name.`
-          )
+    .then(arrCountries => {
+      if (arrCountries.length > 10) {
+        Notiflix.Notify.warning(
+          `Too many matches found. Please enter a more specific name.`
         );
+        return arrCountries;
       }
-      const murk = markupCountries(arrCuntries);
+      const murk = markupCountries(arrCountries);
       addMarkupOnPage(murk);
-      return arrCuntries;
+      return arrCountries;
     })
-    .then(arrCuntries => {
-      if (arrCuntries.length !== 1) {
-        throw new Error(error);
+    .then(arrCountries => {
+      if (arrCountries.length !== 1) {
+        // throw new Error(error);
+        return;
       }
-      addMarkupOnPage2(markupCountry(arrCuntries));
+      addMarkupOnPage2(markupCountry(arrCountries));
+      document.querySelector('.country').classList.add('country-big');
     })
     .catch(err => {
-      console.log(err);
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+      console.log('its errrrrror - ', err);
     });
 }
 
-function markupCountries(arrCuntries) {
-  return arrCuntries
+function markupCountries(arrCountries) {
+  return arrCountries
     .map(({ name, flags: { svg } }) => {
       return `
     <li class='country'>
@@ -54,8 +56,8 @@ function markupCountries(arrCuntries) {
     .join('');
 }
 
-function markupCountry(arrCuntries) {
-  return arrCuntries
+function markupCountry(arrCountries) {
+  return arrCountries
     .map(({ capital, languages, population }) => {
       const leng = languages.map(el => {
         return el.name;

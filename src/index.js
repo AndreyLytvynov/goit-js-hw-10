@@ -27,9 +27,6 @@ function onInputChange(e) {
       }
       const murk = markupCountries(arrCountries);
       addMarkupOnPage(murk);
-      return arrCountries;
-    })
-    .then(arrCountries => {
       if (arrCountries.length !== 1) {
         // throw new Error(error);
         return;
